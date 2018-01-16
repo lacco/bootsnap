@@ -445,7 +445,9 @@ mkpath(char * file_path, mode_t mode)
     #ifdef _WIN32
     if (mkdir(file_path) == -1) {
     #else
+    mode_t old_mask = umask(0);
     if (mkdir(file_path, mode) == -1) {
+    umask(old_mask);
     #endif
       if (errno != EEXIST) {
         *p = '/';
